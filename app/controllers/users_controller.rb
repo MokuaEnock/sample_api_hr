@@ -6,6 +6,9 @@ class UsersController < ApplicationController
     @user.password = BCrypt::Password.create(params[:user][:password])
 
     if @user.save
+      role = Role.find_by(name: "employer")
+
+      @user.roles << role
       render json: @user, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
